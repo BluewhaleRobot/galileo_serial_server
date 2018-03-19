@@ -1,4 +1,4 @@
-#include "galelio_serial_server/AsyncSerial.h"
+#include "galileo_serial_server/AsyncSerial.h"
 #include <iostream>
 #include <boost/thread.hpp>
 
@@ -9,9 +9,9 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    cout<<"welcome to galelio serial server,please feel free at home!"<<endl;
+    cout<<"welcome to galileo serial server,please feel free at home!"<<endl;
 
-    ros::init(argc, argv, "galelio_serial_server");
+    ros::init(argc, argv, "galileo_serial_server");
     ros::start();
 
     //获取串口参数
@@ -21,20 +21,20 @@ int main(int argc, char **argv)
     ros::param::param<int>("~baud", baud, 115200);
     cout<<"port:"<<port<<" baud:"<<baud<<endl;
 
-    string galelioCmds_topic,galelioStatus_topic;
-    ros::param::param<std::string>("~galelioCmds_topic", galelioCmds_topic, "/galelioSerialServer/cmds");
-    ros::param::param<std::string>("~galelioStatus_topic", galelioStatus_topic, "/galelioSerialServer/status");
+    string galileoCmds_topic,galileoStatus_topic;
+    ros::param::param<std::string>("~galileoCmds_topic", galileoCmds_topic, "/galileoSerialServer/cmds");
+    ros::param::param<std::string>("~galileoStatus_topic", galileoStatus_topic, "/galileoSerialServer/status");
 
     try {
         CallbackAsyncSerial serial(port,baud);
-        galelio_serial_server::StatusPublisher galelio_server(galelioCmds_topic,galelioStatus_topic,&serial);
-        serial.setCallback(boost::bind(&galelio_serial_server::StatusPublisher::UpdateCmds,&galelio_server,_1,_2));
-        boost::thread cmd2serialThread(&galelio_serial_server::StatusPublisher::run,&galelio_server);
+        galileo_serial_server::StatusPublisher galileo_server(galileoCmds_topic,galileoStatus_topic,&serial);
+        serial.setCallback(boost::bind(&galileo_serial_server::StatusPublisher::UpdateCmds,&galileo_server,_1,_2));
+        boost::thread cmd2serialThread(&galileo_serial_server::StatusPublisher::run,&galileo_server);
 
         ros::Rate r(30);//发布周期为50hz
         while (ros::ok())
         {
-            galelio_server.Refresh();//定时发布状态
+            galileo_server.Refresh();//定时发布状态
             r.sleep();
         }
         quit:

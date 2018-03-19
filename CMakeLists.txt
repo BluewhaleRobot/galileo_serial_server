@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(galelio_serial_server)
+project(galileo_serial_server)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -51,8 +51,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
  add_message_files(
    FILES
-   GalelioNativeCmds.msg
-   GalelioStatus.msg
+   galileoNativeCmds.msg
+   galileoStatus.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -106,7 +106,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES galelio_serial_server
+#  LIBRARIES galileo_serial_server
   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy sensor_msgs std_msgs tf
 #  DEPENDS system_lib
 )
@@ -128,24 +128,24 @@ find_package(Boost COMPONENTS ${BOOST_LIBS} REQUIRED)
 find_package(Threads REQUIRED)
 
 ## Declare a C++ library
-# add_library(galelio_serial_server
-#   src/${PROJECT_NAME}/galelio_serial_server.cpp
+# add_library(galileo_serial_server
+#   src/${PROJECT_NAME}/galileo_serial_server.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(galelio_serial_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(galileo_serial_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(galelio_serial_server_node src/galelio_serial_server_node.cpp src/galelio_serial_server.cpp)
+add_executable(galileo_serial_server_node src/galileo_serial_server_node.cpp src/galileo_serial_server.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(galelio_serial_server_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(galileo_serial_server_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(galelio_serial_server_node
+target_link_libraries(galileo_serial_server_node
  ${catkin_LIBRARIES}
 )
 
@@ -165,7 +165,7 @@ target_link_libraries(galelio_serial_server_node
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS galelio_serial_server_node
+install(TARGETS galileo_serial_server_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
@@ -189,7 +189,7 @@ install(TARGETS galelio_serial_server_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_galelio_serial_server.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_galileo_serial_server.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

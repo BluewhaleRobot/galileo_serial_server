@@ -1,11 +1,11 @@
-#include "galelio_serial_server/AsyncSerial.h"
-namespace galelio_serial_server
+#include "galileo_serial_server/AsyncSerial.h"
+namespace galileo_serial_server
 {
-StatusPublisher::StatusPublisher(std::string galelioCmds_topic,std::string galelioStatus_topic,CallbackAsyncSerial* cmd_serial)
-                                :galelioCmds_topic_(galelioCmds_topic),galelioStatus_topic_(galelioStatus_topic),cmd_serial_(cmd_serial)
+StatusPublisher::StatusPublisher(std::string galileoCmds_topic,std::string galileoStatus_topic,CallbackAsyncSerial* cmd_serial)
+                                :galileoCmds_topic_(galileoCmds_topic),galileoStatus_topic_(galileoStatus_topic),cmd_serial_(cmd_serial)
 {
   mbUpdated_=false;
-  mGalelioCmdsPub_ = mNH_.advertise<galelio_serial_server::GalelioNativeCmds>(galelioCmds_topic_,1,true);
+  mgalileoCmdsPub_ = mNH_.advertise<galileo_serial_server::galileoNativeCmds>(galileoCmds_topic_,1,true);
   car_status.nav_status=0;
   car_status.visual_status=0;
   car_status.power=0.0f;
@@ -97,16 +97,16 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
                 {
                     // std::cout<<"runup4 "<<std::endl;
                     //当前包已经处理完成，开始处理
-                    galelio_serial_server::GalelioNativeCmds currentCmds;
+                    galileo_serial_server::galileoNativeCmds currentCmds;
                     currentCmds.header.stamp = ros::Time::now();
-                    currentCmds.header.frame_id = "galelio_serial_server";
+                    currentCmds.header.frame_id = "galileo_serial_server";
                     currentCmds.data.resize(new_packed_ok_len);
 
                     for(int i=0;i<new_packed_ok_len;i++)
                     {
                       currentCmds.data[i] = cmd_string_buf[i];
                     }
-                    mGalelioCmdsPub_.publish(currentCmds);
+                    mgalileoCmdsPub_.publish(currentCmds);
                     new_packed_ok_len=0;
                     new_packed_len=0;
                 }
@@ -116,7 +116,7 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
     return;
 }
 
-void StatusPublisher::UpdateStatus(const galelio_serial_server::GalelioStatus & current_receive_status)
+void StatusPublisher::UpdateStatus(const galileo_serial_server::galileoStatus & current_receive_status)
 {
   boost::mutex::scoped_lock lock(mStausMutex_);
   car_status.nav_status = current_receive_status.nav_status;
@@ -134,7 +134,7 @@ void StatusPublisher::UpdateStatus(const galelio_serial_server::GalelioStatus & 
 
 void StatusPublisher::run()
 {
-  ros::Subscriber sub = mNH_.subscribe(galelioStatus_topic_, 1, &StatusPublisher::UpdateStatus, this);
+  ros::Subscriber sub = mNH_.subscribe(galileoStatus_topic_, 1, &StatusPublisher::UpdateStatus, this);
   ros::spin();
 }
 

@@ -1,15 +1,15 @@
-#ifndef GALELIOSERIALSERVER_H
-#define GALELIOSERIALSERVER_H
+#ifndef galileoSERIALSERVER_H
+#define galileoSERIALSERVER_H
 
-#include "galelio_serial_server/AsyncSerial.h"
+#include "galileo_serial_server/AsyncSerial.h"
 
 #include "ros/ros.h"
 #include <boost/thread.hpp>
 #include <boost/assign/list_of.hpp>
-#include "galelio_serial_server/GalelioNativeCmds.h"
-#include "galelio_serial_server/GalelioStatus.h"
+#include "galileo_serial_server/galileoNativeCmds.h"
+#include "galileo_serial_server/galileoStatus.h"
 
-namespace galelio_serial_server
+namespace galileo_serial_server
 {
 typedef struct {
   int nav_status;//导航服务状态,0 表示没开启 closed,1 表示开启 opened 。
@@ -29,25 +29,25 @@ typedef struct {
 class StatusPublisher
 {
 public:
-    StatusPublisher(std::string galelioCmds_topic,std::string galelioStatus_topic,CallbackAsyncSerial* cmd_serial);
+    StatusPublisher(std::string galileoCmds_topic,std::string galileoStatus_topic,CallbackAsyncSerial* cmd_serial);
     void Refresh();
     void UpdateCmds(const char *data, unsigned int len);
-    void UpdateStatus(const galelio_serial_server::GalelioStatus & current_receive_status);
+    void UpdateStatus(const galileo_serial_server::galileoStatus & current_receive_status);
     void run();
     DOWNLOAD_STATUS car_status;
 private:
     ros::NodeHandle mNH_;
-    ros::Publisher mGalelioCmdsPub_;
+    ros::Publisher mgalileoCmdsPub_;
     bool mbUpdated_;
-    std::string galelioCmds_topic_;
-    std::string galelioStatus_topic_;
+    std::string galileoCmds_topic_;
+    std::string galileoStatus_topic_;
     CallbackAsyncSerial* cmd_serial_;
     boost::mutex mStausMutex_;
     boost::mutex mCmdsMutex_;
     char * cmd_str_;
 };
 
-} //galelio_serial_server
+} //galileo_serial_server
 
 
-#endif // GALELIOSERIALSERVER_H
+#endif // galileoSERIALSERVER_H
