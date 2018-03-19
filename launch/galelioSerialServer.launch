@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="galelio_serial_server" type="galelio_serial_server_node" name="galelio_serial_driver">
+    <param name="port" value="/dev/ttyUSB002"/>
+    <param name="baud" value="115200"/>
+    <param name="galelioCmds_topic" value="/galelioSerialServer/cmds"/>
+    <param name="galelioStatus_topic" value="/galelioSerialServer/status"/>
+  </node>
+</launch>

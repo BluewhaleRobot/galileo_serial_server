@@ -1,0 +1,12 @@
+std_msgs/Header header
+int32 navStatus
+int32 visualStatus
+float32 power
+int32 targetNumID
+int32 targetStatus
+float32 targetDistance
+int32 angleGoalStatus
+float32 controlSpeedX
+float32 controlSpeedTheta
+float32 currentSpeedX
+float32 currentSpeedTheta
