@@ -51,8 +51,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
  add_message_files(
    FILES
-   galileoNativeCmds.msg
-   galileoStatus.msg
+   GalileoNativeCmds.msg
+   GalileoStatus.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -119,6 +119,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${Boost_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
@@ -135,7 +136,7 @@ find_package(Threads REQUIRED)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(galileo_serial_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(galileo_serial_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 add_executable(galileo_serial_server_node src/galileo_serial_server_node.cpp src/galileo_serial_server.cpp)
