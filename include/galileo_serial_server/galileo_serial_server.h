@@ -6,8 +6,8 @@
 #include "ros/ros.h"
 #include <boost/thread.hpp>
 #include <boost/assign/list_of.hpp>
-#include "galileo_serial_server/galileoNativeCmds.h"
-#include "galileo_serial_server/galileoStatus.h"
+#include "galileo_serial_server/GalileoNativeCmds.h"
+#include "galileo_serial_server/GalileoStatus.h"
 
 namespace galileo_serial_server
 {
@@ -32,7 +32,7 @@ public:
     StatusPublisher(std::string galileoCmds_topic,std::string galileoStatus_topic,CallbackAsyncSerial* cmd_serial);
     void Refresh();
     void UpdateCmds(const char *data, unsigned int len);
-    void UpdateStatus(const galileo_serial_server::galileoStatus & current_receive_status);
+    void UpdateStatus(const galileo_serial_server::GalileoStatus & current_receive_status);
     void run();
     DOWNLOAD_STATUS car_status;
 private:

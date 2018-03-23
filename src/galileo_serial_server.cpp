@@ -1,11 +1,15 @@
 #include "galileo_serial_server/AsyncSerial.h"
+#include "galileo_serial_server/galileo_serial_server.h"
+#define DISABLE 0
+#define ENABLE 1
+
 namespace galileo_serial_server
 {
 StatusPublisher::StatusPublisher(std::string galileoCmds_topic,std::string galileoStatus_topic,CallbackAsyncSerial* cmd_serial)
                                 :galileoCmds_topic_(galileoCmds_topic),galileoStatus_topic_(galileoStatus_topic),cmd_serial_(cmd_serial)
 {
   mbUpdated_=false;
-  mgalileoCmdsPub_ = mNH_.advertise<galileo_serial_server::galileoNativeCmds>(galileoCmds_topic_,1,true);
+  mgalileoCmdsPub_ = mNH_.advertise<galileo_serial_server::GalileoNativeCmds>(galileoCmds_topic_,1,true);
   car_status.nav_status=0;
   car_status.visual_status=0;
   car_status.power=0.0f;
@@ -30,11 +34,11 @@ void StatusPublisher::Refresh()
 {
   boost::mutex::scoped_lock lock(mStausMutex_);
   car_status.time_stamp +=1;
-  receive_byte=(int *)&car_status;
+  int * receive_byte=(int *)&car_status;
   memcpy(&cmd_str_[4],&receive_byte[0],48);
   if(NULL!=cmd_serial_)
   {
-      cmd_serial_->write(cmd_str_,6);
+      cmd_serial_->write(cmd_str_,53);
   }
 }
 
@@ -42,7 +46,6 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
 {
     boost::mutex::scoped_lock lock(mCmdsMutex_);
     int i=0,j=0;
-    int * receive_byte;
     static unsigned char last_str[2]={0x00,0x00};
     static unsigned char new_packed_ctr=DISABLE;//ENABLE表示新包开始，DISABLE 表示上一个包还未处理完；
     static int new_packed_ok_len=0;//包的理论长度
@@ -82,10 +85,10 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
         else
         {
             //判断包当前大小
-            if(new_packed_ok_len<=new_packed_len)
+            if(new_packed_ok_len<=new_packed_len||new_packed_ok_len>20)
             {
                 //std::cout<<"runup3 "<< new_packed_len<< new_packed_ok_len<<std::endl;
-                //包长度已经大于等于理论长度，后续内容无效
+                //包长度已经大于等于理论长度，或者大于２０字节，后续内容无效
                 continue;
             }
             else
@@ -97,7 +100,7 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
                 {
                     // std::cout<<"runup4 "<<std::endl;
                     //当前包已经处理完成，开始处理
-                    galileo_serial_server::galileoNativeCmds currentCmds;
+                    galileo_serial_server::GalileoNativeCmds currentCmds;
                     currentCmds.header.stamp = ros::Time::now();
                     currentCmds.header.frame_id = "galileo_serial_server";
                     currentCmds.data.resize(new_packed_ok_len);
@@ -116,10 +119,10 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
     return;
 }
 
-void StatusPublisher::UpdateStatus(const galileo_serial_server::galileoStatus & current_receive_status)
+void StatusPublisher::UpdateStatus(const galileo_serial_server::GalileoStatus & current_receive_status)
 {
   boost::mutex::scoped_lock lock(mStausMutex_);
-  car_status.nav_status = current_receive_status.nav_status;
+  car_status.nav_status = current_receive_status.navStatus;
   car_status.visual_status = current_receive_status.visualStatus;
   car_status.power = current_receive_status.power;
   car_status.target_numID = current_receive_status.targetNumID;

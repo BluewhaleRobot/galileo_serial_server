@@ -4,6 +4,7 @@
 
 #include <ros/ros.h>
 #include <ros/package.h>
+#include "galileo_serial_server/galileo_serial_server.h"
 
 using namespace std;
 

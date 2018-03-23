@@ -25,7 +25,7 @@
  *
  */
 
-#include "AsyncSerial.h"
+#include "galileo_serial_server/AsyncSerial.h"
 
 #include <string>
 #include <algorithm>

@@ -1,8 +1,8 @@
 <launch>
   <node pkg="galileo_serial_server" type="galileo_serial_server_node" name="galileo_serial_driver">
-    <param name="port" value="/dev/ttyUSB002"/>
+    <param name="port" value="/dev/galileoSerial"/>
     <param name="baud" value="115200"/>
-    <param name="galileoCmds_topic" value="/galileoSerialServer/cmds"/>
-    <param name="galileoStatus_topic" value="/galileoSerialServer/status"/>
+    <param name="galileoCmds_topic" value="/galileo/cmds"/>
+    <param name="galileoStatus_topic" value="/galileo/status"/>
   </node>
 </launch>
