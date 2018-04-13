@@ -54,7 +54,6 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
     unsigned char current_str=0x00;
     const int cmd_string_max_size=512;
 
-
     for(i=0;i<len;i++)
     {
         current_str=data[i];
@@ -103,6 +102,7 @@ void StatusPublisher::UpdateCmds(const char *data, unsigned int len)
                     galileo_serial_server::GalileoNativeCmds currentCmds;
                     currentCmds.header.stamp = ros::Time::now();
                     currentCmds.header.frame_id = "galileo_serial_server";
+                    currentCmds.length = new_packed_ok_len;
                     currentCmds.data.resize(new_packed_ok_len);
 
                     for(int i=0;i<new_packed_ok_len;i++)
