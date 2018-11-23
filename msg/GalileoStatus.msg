@@ -1,6 +1,9 @@
 std_msgs/Header header
 int32 navStatus
 int32 visualStatus
+int32 mapStatus
+int32 gcStatus
+int32 gbaStatus
 int32 chargeStatus
 int32 loopStatus
 float32 power
