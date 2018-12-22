@@ -15,3 +15,6 @@ float32 controlSpeedX
 float32 controlSpeedTheta
 float32 currentSpeedX
 float32 currentSpeedTheta
+float32 currentPosX
+float32 currentPosY
+float32 currentAngle
