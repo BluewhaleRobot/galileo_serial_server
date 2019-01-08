@@ -18,3 +18,4 @@ float32 currentSpeedTheta
 float32 currentPosX
 float32 currentPosY
 float32 currentAngle
+int32 busyStatus
