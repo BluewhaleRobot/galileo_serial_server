@@ -63,6 +63,11 @@ int main(int argc, char** argv)
         ros::Rate r(30);  //发布周期为50hz
         while (ros::ok())
         {
+            if(serial.errorStatus() || serial.isOpen()==false)
+            {
+                cerr<<"Error: galileo_serial_server port  closed unexpectedly"<<endl;
+                break;
+            }
             galileo_server.Refresh();  //定时发布状态
             r.sleep();
         }
