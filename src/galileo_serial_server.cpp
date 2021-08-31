@@ -50,7 +50,7 @@ void StatusPublisher::Refresh()
     memcpy(&cmd_str_[4], &receive_byte[0], 84);
     if (NULL != cmd_serial_)
     {
-        cmd_serial_->write(cmd_str_, 53);
+        cmd_serial_->write(cmd_str_, 89);
     }
 }
 
